@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Campanha de Missões Nacionais 2025 - IBCM</title>
+<style>
+  :root {
+    --primary: #1E90FF;
+    --secondary: #00CED1;
+    --accent: #FFD700;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --dark: #333;
+    --light: #f8f9fa;
+    --shadow: rgba(0,0,0,0.1);
+    --shadow-lg: rgba(0,0,0,0.2);
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ===== CONFIGURAÇÃO ===== */
+  #config {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #config::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: moveBackground 20s linear infinite;
+  }
+
+  @keyframes moveBackground {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+
+  .card {
+    width: clamp(320px, 90vw, 800px);
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius);
+    box-shadow: 0 20px 40px var(--shadow-lg);
+    padding: 30px;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .card-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .card-header h2 {
+    font-size: 2rem;
+    color: var(--dark);
+    margin-bottom: 10px;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .card-header p {
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group.full {
+    grid-column: 1 / -1;
+  }
+
+  .form-group label {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    background: #fff;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+  }
+
+  .form-control[type="color"] {
+    height: 50px;
+    padding: 4px;
+    cursor: pointer;
+  }
+
+  .form-control[type="file"] {
+    padding: 8px;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 120px;
+    justify-content: center;
+  }
+
+  .btn-primary {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: white;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(30, 144, 255, 0.3);
+  }
+
+  .btn-secondary {
+    background: var(--light);
+    color: var(--dark);
+    border: 2px solid #e1e5e9;
+  }
+
+  .btn-secondary:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
+  }
+
+  .btn-danger {
+    background: var(--danger);
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .progress-info {
+    background: var(--light);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    border-left: 4px solid var(--primary);
+  }
+
+  .progress-info h4 {
+    margin-bottom: 10px;
+    color: var(--dark);
+  }
+
+  .progress-info p {
+    color: #666;
+    margin-bottom: 5px;
+  }
+
+  /* ===== TERMÔMETRO ===== */
+  #termometroPagina {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    overflow: hidden;
+  }
+
+  .thermometer-content {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-info {
+    text-align: center;
+    padding: 20px;
+    margin: 20px;
+
+  }
+
+  .value-display {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 10px;
+  }
+
+  .theme-title {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    color: var(--danger);
+  }
+
+  /* TERMÔMETRO NA PARTE INFERIOR */
+  .thermometer-wrapper {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(90vw, 800px);
+    padding: 0 20px;
+  }
+
+  .thermometer-container {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 4px solid rgba(0,0,0,0.1);
+    box-shadow: 
+      inset 0 4px 8px rgba(0,0,0,0.1),
+      0 8px 32px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+
+  .thermometer-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+    border-radius: 50px;
+    transition: width 0.3s ease;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+  }
+
+  .thermometer-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+      rgba(255,255,255,0.3) 0%, 
+      transparent 50%, 
+      rgba(255,255,255,0.1) 100%);
+    animation: shine 2s ease-in-out infinite;
+  }
+
+  @keyframes shine {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(200%); }
+  }
+
+  /* VALORES INTERNOS DE 500 EM 500 */
+  .internal-values {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 25;
+  }
+
+  .internal-value {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 900;
+    font-size: clamp(12px, 1.2vw, 16px);
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    white-space: nowrap;
+    z-index: 30;
+  }
+
+  .indicator {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, var(--accent) 0%, #FFA500 70%, #FF8C00 100%);
+    border-radius: 50%;
+    box-shadow: 
+      0 0 20px rgba(255, 215, 0, 0.6),
+      0 4px 15px rgba(0,0,0,0.3);
+    z-index: 20;
+    transition: all 0.3s ease;
+  }
+
+  .indicator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 50%;
+  }
+
+  .goal-marker {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 15;
+  }
+
+  .ruler {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .tick {
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(0,0,0,0.2);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .tick-label {
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.5s ease;
+    pointer-events: none;
+  }
+
+  .controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    gap: 10px;
+  }
+
+  .control-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.9);
+    color: var(--dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px var(--shadow);
+    transition: var(--transition);
+  }
+
+  .control-btn:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-lg);
+  }
+
+  .stats-panel {
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px var(--shadow);
+    min-width: 200px;
+  }
+
+  .stats-panel h4 {
+    margin-bottom: 10px;
+    color: var(--dark);
+  }
+
+  .stat-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+  }
+
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .btn-group {
+      flex-direction: column;
+    }
+    
+    .thermometer-wrapper {
+      bottom: 40px;
+      padding: 0 10px;
+    }
+    
+    .thermometer-container {
+      height: 60px;
+    }
+    
+    .internal-value {
+      font-size: clamp(10px, 2vw, 14px);
+    }
+    
+    .indicator {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .indicator::before {
+      width: 15px;
+      height: 15px;
+    }
+    
+    .controls {
+      position: static;
+      justify-content: center;
+      margin: 10px;
+    }
+    
+    .stats-panel {
+      position: static;
+      margin: 10px;
+    }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- CONFIGURAÇÃO -->
+<section id="config">
+  <div class="card fade-in">
+    <div class="card-header">
+      <h2>🎯 Termômetro de Ofertas Missões 2025</h2>
+      <p>Igreja Batista em Chico Mendes - CG</p>
+    </div>
+    
+    <div class="form-grid">
+      <div class="form-group full">
+        <label for="temaInput">📋 Título da Campanha</label>
+        <input id="temaInput" type="text" class="form-control" value="Campanha de Missões Nacionais 2025 - IBCM" placeholder="Digite o título da sua campanha" />
+      </div>
+
+      <div class="form-group">
+        <label for="valorInput">💰 Valor Atual (R$)</label>
+        <input id="valorInput" type="number" class="form-control" min="0" step="0.01" value="0" placeholder="0.00" />
+      </div>
+
+      <div class="form-group">
+        <label for="metaInput">🎯 Meta (R$)</label>
+        <input id="metaInput" type="number" class="form-control" min="1" step="0.01" value="4500" placeholder="4500.00" />
+      </div>
+
+      <div class="form-group">
+        <label for="tuboCor">🎨 Cor do Preenchimento</label>
+        <input id="tuboCor" type="color" class="form-control" value="#1E90FF" />
+      </div>
+
+      <div class="form-group">
+        <label for="accentCor">✨ Cor do Indicador</label>
+        <input id="accentCor" type="color" class="form-control" value="#FFD700" />
+      </div>
+
+      <div class="form-group full">
+        <label for="tipoFundo">🖼️ Tipo de Fundo</label>
+        <select id="tipoFundo" class="form-control">
+          <option value="padrao">Imagem Atual</option>
+          <option value="degrade">Degradê Personalizado</option>
+          <option value="imagem">Imagem Personalizada</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="blkDegrade1">
+        <label for="gradA">🎨 Cor Inicial</label>
+        <input id="gradA" type="color" class="form-control" value="#667eea" />
+      </div>
+
+      <div class="form-group" id="blkDegrade2">
+        <label for="gradB">🎨 Cor Final</label>
+        <input id="gradB" type="color" class="form-control" value="#764ba2" />
+      </div>
+
+      <div class="form-group full" id="blkDegradeDir">
+        <label for="gradDir">↗️ Direção do Degradê</label>
+        <select id="gradDir" class="form-control">
+          <option value="135deg">Diagonal ↘️</option>
+          <option value="to bottom">Vertical ⬇️</option>
+          <option value="to right">Horizontal ➡️</option>
+          <option value="45deg">Diagonal ↗️</option>
+          <option value="to bottom right">Canto ↘️</option>
+        </select>
+      </div>
+
+      <div class="form-group full hidden" id="blkImagem">
+        <label for="fundoPagina">📁 Imagem de Fundo</label>
+        <input id="fundoPagina" type="file" class="form-control" accept="image/*" />
+      </div>
+    </div>
+
+    <div class="progress-info hidden" id="progressInfo">
+      <h4>📊 Informações da Meta</h4>
+      <p id="percentageInfo">Porcentagem: 0%</p>
+      <p id="remainingInfo">Restante: R$ 4.500,00</p>
+      <p id="statusInfo">Status: Iniciando</p>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-secondary" id="previewBtn">👁️ Visualizar</button>
+      <button class="btn btn-primary" id="gerarBtn">🚀 Gerar Termômetro</button>
+      <button class="btn btn-danger" id="resetBtn">🔄 Resetar</button>
+    </div>
+  </div>
+</section>
+
+<!-- TERMÔMETRO -->
+<section id="termometroPagina">
+  <div class="thermometer-content">
+    <div class="controls">
+      <button class="control-btn" id="backBtn" title="Voltar às configurações">⬅️</button>
+      <button class="control-btn" id="soundBtn" title="Ativar/Desativar Som">🔊</button>
+    </div>
+
+    <div class="header-info">
+      <div class="value-display" id="valueDisplay">R$ 0,00 (0%)</div>
+      <div class="theme-title" id="themeTitle">Campanha de Missões Nacionais 2025 - IBCM</div>
+    </div>
+
+    <div class="thermometer-wrapper">
+      <div class="thermometer-container" id="thermometerContainer">
+        <div class="thermometer-fill" id="thermometerFill"></div>
+        <div class="internal-values" id="internalValues"></div>
+        <div class="indicator" id="indicator"></div>
+        <div class="goal-marker" id="goalMarker">Meta: R$ 4.500,00</div>
+        <div class="ruler" id="ruler"></div>
+      </div>
+    </div>
+
+    <div class="stats-panel">
+      <h4>📈 Estatísticas</h4>
+      <div class="stat-item">
+        <span>Progresso:</span>
+        <span id="progressStat">0%</span>
+      </div>
+      <div class="stat-item">
+        <span>Arrecadado:</span>
+        <span id="raisedStat">R$ 0,00</span>
+      </div>
+      <div class="stat-item">
+        <span>Restante:</span>
+        <span id="remainingStat">R$ 4.500,00</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+class ThermometerApp {
+  constructor() {
+    this.config = {
+      maxValue: 4500,
+      currentValue: 0,
+      soundEnabled: true,
+      backgroundImageData: null
+    };
+    
+    this.elements = this.initElements();
+    this.bindEvents();
+    this.updateProgressInfo();
+    this.initializeBackgroundToggle();
+  }
+
+  initElements() {
+    return {
+      // Configuração
+      config: document.getElementById('config'),
+      thermometerPage: document.getElementById('termometroPagina'),
+      
+      // Inputs
+      themeInput: document.getElementById('temaInput'),
+      valueInput: document.getElementById('valorInput'),
+      metaInput: document.getElementById('metaInput'),
+      tubeColor: document.getElementById('tuboCor'),
+      accentColor: document.getElementById('accentCor'),
+      backgroundType: document.getElementById('tipoFundo'),
+      gradientA: document.getElementById('gradA'),
+      gradientB: document.getElementById('gradB'),
+      gradientDir: document.getElementById('gradDir'),
+      backgroundFile: document.getElementById('fundoPagina'),
+      
+      // Blocos condicionais
+      gradientBlock1: document.getElementById('blkDegrade1'),
+      gradientBlock2: document.getElementById('blkDegrade2'),
+      gradientDirBlock: document.getElementById('blkDegradeDir'),
+      imageBlock: document.getElementById('blkImagem'),
+      
+      // Botões
+      previewBtn: document.getElementById('previewBtn'),
+      generateBtn: document.getElementById('gerarBtn'),
+      resetBtn: document.getElementById('resetBtn'),
+      backBtn: document.getElementById('backBtn'),
+      soundBtn: document.getElementById('soundBtn'),
+      
+      // Informações
+      progressInfo: document.getElementById('progressInfo'),
+      percentageInfo: document.getElementById('percentageInfo'),
+      remainingInfo: document.getElementById('remainingInfo'),
+      statusInfo: document.getElementById('statusInfo'),
+      
+      // Termômetro
+      valueDisplay: document.getElementById('valueDisplay'),
+      themeTitle: document.getElementById('themeTitle'),
+      thermometerContainer: document.getElementById('thermometerContainer'),
+      thermometerFill: document.getElementById('thermometerFill'),
+      internalValues: document.getElementById('internalValues'),
+      indicator: document.getElementById('indicator'),
+      goalMarker: document.getElementById('goalMarker'),
+      ruler: document.getElementById('ruler'),
+      
+      // Estatísticas
+      progressStat: document.getElementById('progressStat'),
+      raisedStat: document.getElementById('raisedStat'),
+      remainingStat: document.getElementById('remainingStat')
+    };
+  }
+
+  bindEvents() {
+    // Mudança do tipo de fundo
+    this.elements.backgroundType.addEventListener('change', () => this.toggleBackgroundOptions());
+    
+    // Upload de arquivo
+    this.elements.backgroundFile.addEventListener('change', (e) => this.handleFileUpload(e));
+    
+    // Botões principais
+    this.elements.previewBtn.addEventListener('click', () => this.previewThermometer());
+    this.elements.generateBtn.addEventListener('click', () => this.generateThermometer());
+    this.elements.resetBtn.addEventListener('click', () => this.resetForm());
+    this.elements.backBtn.addEventListener('click', () => this.backToConfig());
+    this.elements.soundBtn.addEventListener('click', () => this.toggleSound());
+    
+    // Inputs de valores
+    this.elements.valueInput.addEventListener('input', () => this.updateProgressInfo());
+    this.elements.metaInput.addEventListener('input', () => this.updateProgressInfo());
+    
+    // Resize window
+    window.addEventListener('resize', () => this.handleResize());
+  }
+
+  initializeBackgroundToggle() {
+    this.toggleBackgroundOptions();
+  }
+
+  toggleBackgroundOptions() {
+    const isImage = this.elements.backgroundType.value === 'imagem';
+    const isGradient = this.elements.backgroundType.value === 'degrade';
+    
+    this.elements.imageBlock.classList.toggle('hidden', !isImage);
+    this.elements.gradientBlock1.classList.toggle('hidden', !isGradient);
+    this.elements.gradientBlock2.classList.toggle('hidden', !isGradient);
+    this.elements.gradientDirBlock.classList.toggle('hidden', !isGradient);
+  }
+
+  handleFileUpload(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    if (!file.type.startsWith('image/')) {
+      alert('❌ Por favor, selecione apenas arquivos de imagem.');
+      return;
+    }
+    
+    if (file.size > 5 * 1024 * 1024) { // 5MB
+      alert('❌ A imagem deve ter no máximo 5MB.');
+      return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.config.backgroundImageData = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  updateProgressInfo() {
+    const current = Number(this.elements.valueInput.value) || 0;
+    const goal = Number(this.elements.metaInput.value) || 4500;
+    const percentage = Math.round((current / goal) * 100);
+    const remaining = Math.max(0, goal - current);
+    
+    this.config.currentValue = current;
+    this.config.maxValue = goal;
+    
+    this.elements.progressInfo.classList.remove('hidden');
+    this.elements.percentageInfo.textContent = `Porcentagem: ${percentage}%`;
+    this.elements.remainingInfo.textContent = `Restante: R$ ${remaining.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+    
+    let status = '🚀 Iniciando';
+    if (percentage >= 100) status = '🎉 Meta Alcançada!';
+    else if (percentage >= 75) status = '🔥 Quase lá!';
+    else if (percentage >= 50) status = '💪 No caminho certo!';
+    else if (percentage >= 25) status = '📈 Progredindo!';
+    
+    this.elements.statusInfo.textContent = `Status: ${status}`;
+  }
+
+  previewThermometer() {
+    this.applyBackground(this.elements.thermometerPage);
+    this.showThermometer();
+    
+    setTimeout(() => {
+      this.hideThermometer();
+    }, 2000);
+  }
+
+  generateThermometer() {
+    if (!this.validateInputs()) return;
+    
+    this.updateThemeAndValues();
+    this.applyBackground(this.elements.thermometerPage);
+    this.applyColors();
+    this.createInternalValues();
+    this.createRuler();
+    this.showThermometer();
+    this.animateThermometer();
+  }
+
+  validateInputs() {
+    const value = Number(this.elements.valueInput.value);
+    const goal = Number(this.elements.metaInput.value);
+    
+    if (value < 0) {
+      alert('❌ O valor atual não pode ser negativo.');
+      return false;
+    }
+    
+    if (goal <= 0) {
+      alert('❌ A meta deve ser maior que zero.');
+      return false;
+    }
+    
+    if (value > goal * 1.5) {
+      return confirm('⚠️ O valor atual excede muito a meta. Deseja continuar?');
+    }
+    
+    return true;
+  }
+
+  updateThemeAndValues() {
+    const theme = this.elements.themeInput.value || 'Meta Financeira';
+    const goal = this.config.maxValue;
+    
+    this.elements.themeTitle.textContent = theme;
+    this.elements.goalMarker.textContent = `Meta: R$ ${goal.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+  }
+
+  applyBackground(target) {
+    const type = this.elements.backgroundType.value;
+    
+    if (type === 'degrade') {
+      const colorA = this.elements.gradientA.value;
+      const colorB = this.elements.gradientB.value;
+      const direction = this.elements.gradientDir.value;
+      target.style.backgroundImage = `linear-gradient(${direction}, ${colorA}, ${colorB})`;
+      target.style.backgroundSize = 'cover';
+    } else if (type === 'imagem' && this.config.backgroundImageData) {
+      target.style.backgroundImage = `url('${this.config.backgroundImageData}')`;
+      target.style.backgroundSize = 'contain';
+    } else {
+      // Fundo padrão responsivo
+      const isMobile = window.innerWidth < 768;
+      const defaultImage = isMobile ? 'Alvo Missoes 2025 cel.png' : 'Alvo Missoes 2025.png';
+      target.style.backgroundImage = `url('${defaultImage}')`;
+      target.style.backgroundSize = 'contain';
+    }
+    
+    target.style.backgroundRepeat = 'no-repeat';
+    target.style.backgroundPosition = 'center center';
+  }
+
+  applyColors() {
+    const primaryColor = this.elements.tubeColor.value;
+    const accentColor = this.elements.accentColor.value;
+    
+    this.elements.thermometerFill.style.background = `linear-gradient(90deg, ${primaryColor}, #00CED1)`;
+    this.elements.indicator.style.background = `radial-gradient(circle, ${accentColor} 0%, #FFA500 70%, #FF8C00 100%)`;
+    
+    // Atualizar CSS custom properties
+    document.documentElement.style.setProperty('--primary', primaryColor);
+    document.documentElement.style.setProperty('--accent', accentColor);
+  }
+
+  createInternalValues() {
+    this.elements.internalValues.innerHTML = '';
+    
+    const goal = this.config.maxValue;
+    const step = 500;
+    
+    // Criar valores de 500 em 500
+    for (let value = step; value < goal; value += step) {
+      const percentage = (value / goal) * 100;
+      
+      const internalValue = document.createElement('div');
+      internalValue.className = 'internal-value';
+      internalValue.style.left = percentage + '%';
+      
+      // Formatação do valor
+      if (value >= 1000) {
+        const kValue = value / 1000;
+        internalValue.textContent = `R$ ${kValue % 1 === 0 ? kValue.toFixed(0) : kValue.toFixed(1)}k`;
+      } else {
+        internalValue.textContent = `R$ ${value}`;
+      }
+      
+      internalValue.dataset.value = value;
+      this.elements.internalValues.appendChild(internalValue);
+    }
+  }
+
+  createRuler() {
+    this.elements.ruler.innerHTML = '';
+    
+    const goal = this.config.maxValue;
+    const rulerSteps = Math.min(10, Math.max(5, Math.floor(goal / 1000))); // Menos marcas na régua
+    
+    for (let i = 0; i <= rulerSteps; i++) {
+      const value = (i / rulerSteps) * goal;
+      const percentage = (i / rulerSteps) * 100;
+      
+      // Criar tick
+      const tick = document.createElement('div');
+      tick.className = 'tick';
+      tick.style.left = percentage + '%';
+      
+      // Criar label
+      const label = document.createElement('div');
+      label.className = 'tick-label';
+      label.style.left = percentage + '%';
+      label.textContent = `R$ ${value.toLocaleString('pt-BR', {maximumFractionDigits: 0})}`;
+      
+      this.elements.ruler.appendChild(tick);
+      this.elements.ruler.appendChild(label);
+    }
+  }
+
+  animateThermometer() {
+    const targetWidth = this.elements.thermometerContainer.clientWidth * (this.config.currentValue / this.config.maxValue);
+    let currentWidth = 0;
+    const duration = 2000; // 2 segundos
+    const startTime = performance.now();
+    
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function (ease-out)
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      currentWidth = targetWidth * easeProgress;
+      
+      // Atualizar largura do preenchimento
+      this.elements.thermometerFill.style.width = currentWidth + 'px';
+      
+      // Atualizar posição do indicador
+      this.elements.indicator.style.left = currentWidth + 'px';
+      
+      // Atualizar valores exibidos
+      const currentValue = this.config.currentValue * easeProgress;
+      const percentage = Math.round((currentValue / this.config.maxValue) * 100);
+      
+      this.elements.valueDisplay.textContent = `R$ ${currentValue.toLocaleString('pt-BR', {minimumFractionDigits: 2})} (${percentage}%)`;
+      
+      // Animar régua e valores internos
+      this.animateRuler(currentWidth);
+      
+      // Continuar animação ou iniciar loop de flutuação
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        this.startFloatingAnimation(currentWidth);
+        
+        // Celebração se meta alcançada
+        if (percentage >= 100) {
+          this.celebrate();
+        }
+      }
+    };
+    
+    requestAnimationFrame(animate);
+  }
+
+  animateRuler(currentWidth) {
+    const ticks = this.elements.ruler.querySelectorAll('.tick');
+    const labels = this.elements.ruler.querySelectorAll('.tick-label');
+    const internalValues = this.elements.internalValues.querySelectorAll('.internal-value');
+    const containerWidth = this.elements.thermometerContainer.clientWidth;
+    
+    // Animar régua externa
+    ticks.forEach((tick, index) => {
+      const tickPosition = (index / (ticks.length - 1)) * containerWidth;
+      if (currentWidth >= tickPosition - 10) { // Tolerância de 10px
+        tick.style.opacity = '1';
+        labels[index].style.opacity = '1';
+      }
+    });
+    
+    // Animar valores internos - aparecem quando o preenchimento os alcança
+    internalValues.forEach((valueEl) => {
+      const value = parseInt(valueEl.dataset.value);
+      const valuePosition = (value / this.config.maxValue) * containerWidth;
+      
+      // Mostrar o valor quando o preenchimento está chegando perto (com uma margem)
+      if (currentWidth >= valuePosition - 20) {
+        valueEl.style.opacity = '1';
+      } else {
+        valueEl.style.opacity = '0';
+      }
+    });
+  }
+
+  startFloatingAnimation(finalWidth) {
+    let time = 0;
+    const amplitude = 3; // Amplitude do movimento
+    const frequency = 0.002; // Frequência da oscilação
+    
+    const float = () => {
+      time += 16; // ~60fps
+      const offset = Math.sin(time * frequency) * amplitude;
+      this.elements.indicator.style.transform = `translate(-50%, calc(-50% + ${offset}px))`;
+      requestAnimationFrame(float);
+    };
+    
+    requestAnimationFrame(float);
+  }
+
+  celebrate() {
+    // Efeito de confete simples
+    const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7'];
+    
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => {
+        this.createConfetti(colors[Math.floor(Math.random() * colors.length)]);
+      }, i * 50);
+    }
+    
+    // Som de celebração (se habilitado)
+    if (this.config.soundEnabled) {
+      this.playSuccessSound();
+    }
+  }
+
+  createConfetti(color) {
+    const confetti = document.createElement('div');
+    confetti.style.position = 'fixed';
+    confetti.style.width = '8px';
+    confetti.style.height = '8px';
+    confetti.style.backgroundColor = color;
+    confetti.style.left = Math.random() * window.innerWidth + 'px';
+    confetti.style.top = '-10px';
+    confetti.style.zIndex = '9999';
+    confetti.style.borderRadius = '50%';
+    confetti.style.pointerEvents = 'none';
+    
+    document.body.appendChild(confetti);
+    
+    // Animar queda
+    const fallDuration = 2000 + Math.random() * 1000;
+    confetti.animate([
+      { transform: 'translateY(-10px) rotate(0deg)', opacity: 1 },
+      { transform: `translateY(${window.innerHeight + 10}px) rotate(720deg)`, opacity: 0 }
+    ], {
+      duration: fallDuration,
+      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+    }).onfinish = () => {
+      confetti.remove();
+    };
+  }
+
+  playSuccessSound() {
+    // Criar som usando Web Audio API
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+      oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
+      oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (e) {
+      console.log('Audio not supported');
+    }
+  }
+
+  resetForm() {
+    if (confirm('🔄 Tem certeza que deseja resetar todas as configurações?')) {
+      this.elements.themeInput.value = 'Campanha de Doações 2024';
+      this.elements.valueInput.value = '0';
+      this.elements.metaInput.value = '4500';
+      this.elements.tubeColor.value = '#1E90FF';
+      this.elements.accentColor.value = '#FFD700';
+      this.elements.backgroundType.value = 'padrao';
+      this.elements.gradientA.value = '#667eea';
+      this.elements.gradientB.value = '#764ba2';
+      this.elements.gradientDir.value = '135deg';
+      this.elements.backgroundFile.value = '';
+      
+      this.config.backgroundImageData = null;
+      this.config.maxValue = 4500;
+      this.config.currentValue = 0;
+      
+      this.toggleBackgroundOptions();
+      this.updateProgressInfo();
+    }
+  }
+
+  previewThermometer() {
+    this.updateThemeAndValues();
+    this.applyBackground(this.elements.thermometerPage);
+    this.applyColors();
+    this.showThermometer();
+    
+    // Preview por 2 segundos
+    setTimeout(() => {
+      this.hideThermometer();
+    }, 2000);
+  }
+
+  showThermometer() {
+    this.elements.config.style.display = 'none';
+    this.elements.thermometerPage.style.display = 'block';
+    this.elements.thermometerPage.classList.add('fade-in');
+  }
+
+  hideThermometer() {
+    this.elements.thermometerPage.style.display = 'none';
+    this.elements.config.style.display = 'flex';
+    this.elements.thermometerPage.classList.remove('fade-in');
+  }
+
+  backToConfig() {
+    this.hideThermometer();
+  }
+
+  toggleSound() {
+    this.config.soundEnabled = !this.config.soundEnabled;
+    this.elements.soundBtn.textContent = this.config.soundEnabled ? '🔊' : '🔇';
+    this.elements.soundBtn.title = this.config.soundEnabled ? 'Desativar Som' : 'Ativar Som';
+  }
+
+  handleResize() {
+    if (this.elements.thermometerPage.style.display === 'block') {
+      // Reaplicar fundo se necessário
+      if (this.elements.backgroundType.value === 'padrao') {
+        this.applyBackground(this.elements.thermometerPage);
+      }
+    }
+  }
+}
+
+// Inicializar aplicação
+document.addEventListener('DOMContentLoaded', () => {
+  new ThermometerApp();
+});
+
+// Service Worker para cache (opcional)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => console.log('SW registered'))
+      .catch(error => console.log('SW registration failed'));
+  });
+}
+</script>
+</body>
+</html>
