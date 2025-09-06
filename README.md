@@ -1,0 +1,1 @@
+# termometro-missoes-2025
